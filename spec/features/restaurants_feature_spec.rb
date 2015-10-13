@@ -1,4 +1,5 @@
 require 'rails_helper'
+# require_relative '../factories/user'
 
 feature 'restaurants' do
   context 'no restaurants have been added' do
@@ -10,8 +11,16 @@ feature 'restaurants' do
   end
 
   context 'restaurants have been added' do
+
     before do
       Restaurant.create(name: 'KFC')
+      # user = create(:user)
+      # visit('/')
+      # click_link('Sign up')
+      # fill_in('Email', with: 'test@example.com')
+      # fill_in('Password', with: 'testtest')
+      # fill_in('Password confirmation', with: 'testtest')
+      # click_button('Sign up')
     end
 
     scenario 'display restaurants' do
@@ -21,10 +30,22 @@ feature 'restaurants' do
     end
   end
 
+
   context 'creating restaurants' do
+    # before do
+    #   visit('/')
+    #   click_link('Sign up')
+    #   fill_in('Email', with: 'test@example.com')
+    #   fill_in('Password', with: 'testtest')
+    #   fill_in('Password confirmation', with: 'testtest')
+    #   click_button('Sign up')
+    # end
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
-      visit '/restaurants'
-      click_link 'Add a restaurant'
+      visit '/users/sign_in'
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      click_button('Log in')
+      visit '/restaurants/new'
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
       expect(page).to have_content 'KFC'
@@ -32,6 +53,16 @@ feature 'restaurants' do
     end
 
     context 'an invalid restaurant' do
+
+      before do
+        visit('/')
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+      end
+
       it 'does not let you submit a name that is too short' do
         visit '/restaurants'
         click_link 'Add a restaurant'
@@ -57,7 +88,15 @@ feature 'restaurants' do
 
   context 'editing restaurants' do
 
-    before { Restaurant.create name: 'KFC' }
+    before do
+      Restaurant.create(name: 'KFC')
+      visit('/')
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+    end
 
     scenario 'let a user edit a restaurant' do
       visit '/restaurants'
@@ -71,7 +110,15 @@ feature 'restaurants' do
 
   context 'deleting restaurants' do
 
-  before {Restaurant.create name: 'KFC'}
+    before do
+      Restaurant.create(name: 'KFC')
+      visit('/')
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
